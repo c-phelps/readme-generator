@@ -1,10 +1,8 @@
-// TODO: Include packages needed for this application
 const fs = require("fs");
 const inquirer = require("inquirer");
 const fetch = require("node-fetch");
 const markdown = require("./utils/generateMarkdown");
 
-// TODO: Create a function to write README file
 function writeToFile(fileName, input, licenseKey) {
   // call the generate markdown function passed from from the utils folder
   markdown(input, licenseKey)
@@ -22,12 +20,12 @@ function writeToFile(fileName, input, licenseKey) {
     });
 }
 
-function createArray(arrLicense){
+function createArray(arrLicense) {
   // take our array of license objects and map them to a new array and only save the value used for Name
   // array went from looking like [{Name:val1, Key:val1},{Name:val2, Key:val2}] to [Name1, Name2]
   const arrLicenseNames = arrLicense.map(({ Name }) => Name);
   // TODO: Create an array of questions for user input
-  // this array relies on data passed by 
+  // this array relies on data passed by
   const arrQuestions = [
     {
       type: "input",
@@ -57,12 +55,10 @@ function createArray(arrLicense){
     { type: "input", message: "Please enter your email address:", name: "inEmail" },
   ];
   // pass our array of questions and our array of licenses to the runinquirer function
-  runInquirer(arrLicense, arrQuestions) 
+  runInquirer(arrLicense, arrQuestions);
 }
 
-// TODO: Create a function to initialize app
 function runInquirer(arrLicense, arrQuestions) {
-  
   inquirer //Run inquirer prompt for each question in the array of questions
     .prompt(arrQuestions)
     .then((response) => {

@@ -1,11 +1,9 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
 // If there is no license, return an empty string
 function renderLicenseBadge(short) {
   const imgBadge = `https://img.shields.io/badge/License:-${short.replaceAll(" ", "_").replaceAll("-", "_")}-red`;
   return imgBadge;
 }
 
-// TODO: Create a function that returns the license link
 // If there is no license => IF THERE IS NO LICENSE this function will never be called
 function renderLicenseLink(license) {
   return fetch(`https://api.github.com/licenses/${license.Key}`)
@@ -25,7 +23,6 @@ function renderLicenseLink(license) {
     });
 }
 
-// TODO: Create a function that returns the license section of README
 // If there is no license => IF THERE IS NO LICENSE this function will never be called
 function renderLicenseSection(license) {
   return renderLicenseLink(license)
@@ -39,7 +36,6 @@ function renderLicenseSection(license) {
     });
 }
 
-// TODO: Create a function to generate markdown for README
 // recieve the input data from the user and the array containing license info
 function generateMarkdown(input, licenseKey) {
   // if there is a license, redirect to renderlicense functions
