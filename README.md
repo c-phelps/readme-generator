@@ -1,4 +1,4 @@
-# Readme Generator[![License:](https://img.shields.io/badge/License:-MIT-red)](http://choosealicense.com/licenses/mit/)
+# Readme Generator  [![License:](https://img.shields.io/badge/License:-MIT-red)](http://choosealicense.com/licenses/mit/)
 ## Table of Contents
 - [Description](#description)
 - [Installation](#installation-instructions)
