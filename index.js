@@ -52,7 +52,7 @@ function createArray(arrLicense){
       choices: arrLicenseNames, //Use our array of licenses
     },
     { type: "input", message: "Please note any contribution guidelines to the project below:", name: "inContribute" },
-    { type: "input", message: "Please not any instructions for testing below:", name: "inTesting" },
+    { type: "input", message: "Please note any instructions for testing below:", name: "inTesting" },
     { type: "input", message: "Please enter your github username:", name: "inUser" },
     { type: "input", message: "Please enter your email address:", name: "inEmail" },
   ];
@@ -68,7 +68,7 @@ function runInquirer(arrLicense, arrQuestions) {
     .then((response) => {
       const licenseKey = arrLicense.find((val) => val.Name === response.inLicense);
       // create our filename based off the project name
-      let fileName = `${response.inTitle.replaceAll(" ", "-")}-README.md`;
+      let fileName = `./READMEs/${response.inTitle.replaceAll(" ", "-")}-README.md`;
       writeToFile(fileName, response, licenseKey);
     });
 }

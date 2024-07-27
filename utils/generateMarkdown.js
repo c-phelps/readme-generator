@@ -17,7 +17,7 @@ function renderLicenseLink(license) {
       return response.json();
     })
     .then((data) => {
-      return { url: data.html_url, short: data.spdx_id };
+      return { url: data.html_url, short: data.spdx_id, desc: data.description };
     })
     .catch((error) => {
       console.error(`Unable to connect to github APIs. Error: ${error}`);
@@ -31,7 +31,7 @@ function renderLicenseSection(license) {
   return renderLicenseLink(license)
     .then((value) => {
       const imgValue = renderLicenseBadge(value.short);
-      return `[![License:](${imgValue})](${value.url})`;
+      return { Badge: `[![License:](${imgValue})](${value.url})`, Desc: value.desc };
     })
     .catch((err) => {
       console.error(`Error: ${err}`);
@@ -40,9 +40,10 @@ function renderLicenseSection(license) {
 }
 
 // TODO: Create a function to generate markdown for README
+// recieve the input data from the user and the array containing license info
 function generateMarkdown(input, licenseKey) {
   // if there is a license, redirect to renderlicense functions
-  if (licenseKey.Key) {
+  if (licenseKey && licenseKey.Key) {
     return renderLicenseSection(licenseKey)
       .then((data) => {
         return generateMarkdownBody(input, data);
@@ -52,36 +53,34 @@ function generateMarkdown(input, licenseKey) {
         return "";
       });
   }
-  // there is no license so we handle the code execution here
+  // there is no license so we only pass the input
   else {
-    return generateMarkdownBody(input);
+    // make sure to return a promise so the calling function can use then on the return value
+    return Promise.resolve(generateMarkdownBody(input));
   }
 }
 
 // create and return a template string with the data passed via input parameter
 function generateMarkdownBody(input, licenseData) {
-  console.log("--------------------");
   //inTitle inDecription inInstall inUsage licenseData (license) inContribute inTesting inUser inEmail
-  console.log(input.inTitle); 
-  let strMD = `#${inTitle}`
-  console.log(licenseData); 
-  return "";
+  let strMD = `# ${input.inTitle}`;
+  if (licenseData) strMD += `           ${licenseData.Badge}\n`;
+  strMD += `## Table of Contents\n`;
+  strMD += `- [Description](#description)\n`;
+  strMD += `- [Installation](#installation-instructions)\n`;
+  strMD += `- [Usage](#usage-information)\n`;
+  strMD += `- [Contributing](#contribution-guidelines)\n`;
+  strMD += `- [Testing](#test-instructions)\n`;
+  if (licenseData) strMD += `- [License](#license-info)\n`;
+  strMD += `- [Contact Me](#questions)\n`;
+  strMD += `## Description\n ${input.inDecription}\n`;
+  strMD += `## Installation Instructions\n ${input.inInstall}\n`;
+  strMD += `## Usage Information\n ${input.inUsage}\n`;
+  strMD += `## Contribution Guidelines\n ${input.inContribute}\n`;
+  strMD += `## Test Instructions\n ${input.inTesting}\n`;
+  if (licenseData) strMD += `## License Info\n ${licenseData.Desc}\n`;
+  strMD += `## Questions\n Contact me @ GitHub: [${input.inUser}](https://github.com/${input.inUser}) or Email: ${input.inEmail}`;
+  return strMD;
 }
-
-// THEN a high-quality, professional README.md is generated with the title of my project and sections entitled Description, Table of Contents, Installation,
-// Usage, License, Contributing, Tests, and Questions
-// WHEN I enter my project title
-// THEN this is displayed as the title of the README
-// WHEN I enter a description, installation instructions, usage information, contribution guidelines, and test instructions
-// THEN this information is added to the sections of the README entitled Description, Installation, Usage, Contributing, and Tests
-// WHEN I choose a license for my application from a list of options
-// THEN a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
-// WHEN I enter my GitHub username
-// THEN this is added to the section of the README entitled Questions, with a link to my GitHub profile
-// WHEN I enter my email address
-// THEN this is added to the section of the README entitled Questions, with instructions on how to reach me with additional questions
-// WHEN I click on the links in the Table of Contents
-// THEN I am taken to the corresponding section of the README
-
-
+//
 module.exports = generateMarkdown;
