@@ -13,6 +13,7 @@ function writeToFile(fileName, input, licenseKey) {
         if (err) {
           console.error("Error writing file:", err);
         }
+      console.log(`File saved successfully as ${fileName}!`);
       });
     })
     .catch((error) => {
